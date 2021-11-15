@@ -1,0 +1,31 @@
+﻿@model IEnumerable<SelectListItem>
+
+@{
+    ViewData["Title"] = "Create a Clip";
+}
+
+<div class="container ">
+    <h1>Create Clip for </h1>
+
+    <div>
+        <form method="post" class="player-index ">
+            <label>Player</label>
+            <select class="form-control" name="playerId" asp-items="@Model"></select>
+
+
+            <label>Clip Name or Url</label>
+            <input type="text" class="form-control " name="clipNameOrUrl" required />
+
+            <div class="mt-3">
+                <button type="submit" class="createclip btn-primary btn-block btn- " id="color">Add Video</button>
+            </div>
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+
+        </form>
+      
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

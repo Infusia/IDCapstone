@@ -1,0 +1,64 @@
+﻿@model IDCapstone.Models.Player
+@inject IDCapstone.Services.EmbedUrlService EM
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@Model.PlayerName's Highlights</h1>
+
+<div class="details">
+    <div class="row">
+
+
+
+
+
+        @*Get clip from database
+            Pull Url out
+              foreach over urls to display on page*@
+
+        @foreach (var pv in Model.PlayerVideos)
+            
+        {
+            if (pv.Video.Url != null)
+            {
+
+
+                <div class="col-4">
+                    <iframe src="@EM.GetEmbedUrl(pv.Video.Url)&autoplay=false"
+                            height="360"
+                            width="100%"
+                            frameborder="0"
+                            scrolling="no"
+                            allowfullscreen="true">
+                    </iframe>
+
+                </div>
+            }
+            @*else
+                {
+                    <div>
+                        <img src="~\Images\TrollNoober.png" alt="Troll Noober" />
+
+                    </div>
+                }*@
+        }
+
+
+    </div>
+</div>
+<div>
+
+
+    &nbsp;
+
+
+
+
+
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+
+</div>

@@ -6,11 +6,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20210918053633_Added rest of tables to DB.cs" />
+    <Compile Remove="Data\Migrations\20210918053633_Added rest of tables to DB.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210918060422_addtional tables for site function.cs" />
+    <Compile Remove="Data\Migrations\20210918060422_addtional tables for site function.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210927034443_user list addition.cs" />
+    <Compile Remove="Data\Migrations\20210927034443_user list addition.Designer.cs" />
+    <Compile Remove="Data\Migrations\20211018085917_AzureDeploy.cs" />
+    <Compile Remove="Data\Migrations\20211018085917_AzureDeploy.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.18" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.18" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.18" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.18" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.18" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.21" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.21">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
