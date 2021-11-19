@@ -1,0 +1,26 @@
+﻿@model IDCapstone.Models.Favourite
+
+@{
+    ViewData["Title"] = "Delete Favourite";
+}
+
+<h1 class="row  justify-content-center align-content-center align-items-center">Delete Favourite</h1>
+
+<h3 class="row  justify-content-center align-content-center align-items-center">Are you sure you want to delete this favourited video?</h3>
+<div >
+    <hr />
+    <dl class="row  justify-content-center align-content-center align-items-center">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Video)
+        </dt>
+        <dd class="row  justify-content-center align-content-center align-items-center">
+            @Html.DisplayFor(model => model.Video.Title)
+        </dd class>
+    </dl>
+    
+    <form class="row  justify-content-center align-content-center align-items-center" asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to Favourites</a>
+    </form>
+</div>

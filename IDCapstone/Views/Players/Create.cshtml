@@ -1,29 +1,29 @@
 ﻿@model IDCapstone.Models.Player
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add A Player";
 }
 
-<h1>Create</h1>
+<h1 class="row  justify-content-center align-content-center align-items-center">Add A Player</h1>
 
-<h4>Player</h4>
+
 <hr />
-<div class="row">
+<div class="row   justify-content-center align-content-center align-items-center">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="PlayerName" class="control-label"></label>
+                <label asp-for="PlayerName" class="control-label">Player Name</label>
                 <input asp-for="PlayerName" class="form-control" />
                 <span asp-validation-for="PlayerName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Bio" class="control-label"></label>
-                <input asp-for="Bio" class="form-control" />
+                <label asp-for="Bio" class="control-label">Player Bio</label>
+                <textarea style="height:200px" asp-for="Bio" class="form-control"></textarea>
                 <span asp-validation-for="Bio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TwitterUrl" class="control-label"></label>
+                <label asp-for="TwitterUrl" class="control-label">Player Twitter URL (IE Twitter.com/ElonMusk)</label>
                 <input asp-for="TwitterUrl" class="form-control" />
                 <span asp-validation-for="TwitterUrl" class="text-danger"></span>
             </div>
@@ -34,9 +34,9 @@
     </div>
 </div>
 
-<div>
+@*<div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

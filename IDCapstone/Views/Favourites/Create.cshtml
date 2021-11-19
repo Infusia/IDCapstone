@@ -1,0 +1,31 @@
+﻿@model IDCapstone.Models.Favourite
+
+@{
+    ViewData["Title"] = "Add A Favourite";
+}
+
+<h1 class="row  justify-content-center align-content-center align-items-center">Add Video To Favourites?</h1>
+
+
+<hr />
+<div class="row  justify-content-center align-content-center align-items-center">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @*<label asp-for="VideoId" class="control-label"></label>*@
+                @*<select asp-for="VideoId" class ="form-control" asp-items="ViewBag.VideoId"></select>*@
+                <input type="hidden" asp-for="VideoId" name="VideoId" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add to Favourites" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <a asp-action="Index">Back to My Favourites</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

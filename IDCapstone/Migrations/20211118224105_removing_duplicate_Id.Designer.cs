@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace IDCapstone.Data.Migrations
+namespace IDCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211115043933_siteYelling")]
-    partial class siteYelling
+    [Migration("20211118224105_removing_duplicate_Id")]
+    partial class removing_duplicate_Id
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,7 +37,7 @@ namespace IDCapstone.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("VideoId")
+                    b.Property<int>("VideoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -49,6 +49,28 @@ namespace IDCapstone.Data.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("IDCapstone.Models.Favourite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("VideoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VideoId");
+
+                    b.ToTable("Favourites");
+                });
+
             modelBuilder.Entity("IDCapstone.Models.FlaggedComment", b =>
                 {
                     b.Property<int>("Id")
@@ -56,7 +78,7 @@ namespace IDCapstone.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CommentId")
+                    b.Property<int>("CommentId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -127,7 +149,7 @@ namespace IDCapstone.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("VideoId")
+                    b.Property<int>("VideoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -149,12 +171,12 @@ namespace IDCapstone.Data.Migrations
                     b.Property<string>("TagName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("VideoId")
+                    b.Property<int>("videoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VideoId");
+                    b.HasIndex("videoId");
 
                     b.ToTable("Tags");
                 });
@@ -452,6 +474,9 @@ namespace IDCapstone.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("UsersListId")
                         .HasColumnType("int");
 
@@ -468,14 +493,31 @@ namespace IDCapstone.Data.Migrations
 
                     b.HasOne("IDCapstone.Models.Video", "Video")
                         .WithMany("Comments")
-                        .HasForeignKey("VideoId");
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IDCapstone.Models.Favourite", b =>
+                {
+                    b.HasOne("IDCapstone.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.HasOne("IDCapstone.Models.Video", "Video")
+                        .WithMany()
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IDCapstone.Models.FlaggedComment", b =>
                 {
                     b.HasOne("IDCapstone.Models.Comment", "Comment")
                         .WithMany()
-                        .HasForeignKey("CommentId");
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("IDCapstone.Models.ApplicationUser", "User")
                         .WithMany()
@@ -505,14 +547,18 @@ namespace IDCapstone.Data.Migrations
 
                     b.HasOne("IDCapstone.Models.Video", "Video")
                         .WithMany()
-                        .HasForeignKey("VideoId");
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IDCapstone.Models.Tag", b =>
                 {
                     b.HasOne("IDCapstone.Models.Video", "Video")
                         .WithMany("Tags")
-                        .HasForeignKey("VideoId");
+                        .HasForeignKey("videoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IDCapstone.Data;
 using IDCapstone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IDCapstone.Controllers
 {
@@ -20,6 +21,7 @@ namespace IDCapstone.Controllers
         }
 
         // GET: PlayerVideos
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.PlayerVideos.Include(p => p.Player);
@@ -27,6 +29,7 @@ namespace IDCapstone.Controllers
         }
 
         // GET: PlayerVideos/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,56 +51,75 @@ namespace IDCapstone.Controllers
 
 
         [HttpGet]
+        [Authorize (Roles ="Admin, User")]
         public async Task<IActionResult> CreateVideoAsync(int playerId)
         {
-
-            var playerSelectList = await _context.Players
-                .OrderBy(player => player.PlayerName)
-                .Select(player =>
-                new SelectListItem()
+            try
+            {
+                if (ModelState.IsValid)
                 {
-                    Text = player.PlayerName,
-                    Value = player.Id.ToString(),
-                    Selected = playerId == player.Id
-                })
-                .ToListAsync();
+                    var playerSelectList = await _context.Players
+                        .OrderBy(player => player.PlayerName)
+                        .Select(player =>
+                        new SelectListItem()
+                        {
+                            Text = player.PlayerName,
+                            Value = player.Id.ToString(),
+                            Selected = playerId == player.Id
+                        })
+                        .ToListAsync();
 
-            return View(playerSelectList);
-
+                    return View(playerSelectList);
+                }
+            }
+            catch (Exception ex)
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Index", "Home");
         }
-
+        /// <summary>
+        /// Custom create method for creating a video linked to a specific user
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <param name="clipNameOrUrl"></param>
+        /// <returns></returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> CreateVideoAsync(int playerId, string clipNameOrUrl)
         {
-            if (string.IsNullOrEmpty(clipNameOrUrl))
+            try {
+                if (ModelState.IsValid)
+                {
+                    Video video = new Video();
+                    video.Url = clipNameOrUrl;
+
+                    _context.Videos.Add(video);
+                    await _context.SaveChangesAsync();
+
+                    PlayerVideo pv = new PlayerVideo();
+                    pv.VideoId = video.Id;
+                    pv.PlayerId = playerId;
+
+                    _context.PlayerVideos.Add(pv);
+
+
+                    await _context.SaveChangesAsync();
+
+
+                    return RedirectToAction("Details", "Players", new { id = playerId });
+                }
+            }catch(Exception ex)
             {
-                throw new NullReferenceException("Please enter url");
+                return NotFound();
             }
-
-
-            Video video = new Video();
-            video.Url = clipNameOrUrl;
-
-            _context.Videos.Add(video);
-            await _context.SaveChangesAsync();
-
-
-            PlayerVideo pv = new PlayerVideo();
-            pv.VideoId = video.Id;
-            pv.PlayerId = playerId;
-         //   pv.IsPrimary = false;
-
-            _context.PlayerVideos.Add(pv);
-
-
-            await _context.SaveChangesAsync();
-
-
-            return RedirectToAction("Details", "Players", new { id = playerId });
+            return RedirectToAction("Index", "Home");
         }
 
 
         // GET: PlayerVideos/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["PlayerId"] = new SelectList(_context.Players, "Id", "Id");
@@ -109,6 +131,7 @@ namespace IDCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,PlayerId")] PlayerVideo playerVideo)
         {
             if (ModelState.IsValid)
@@ -122,6 +145,7 @@ namespace IDCapstone.Controllers
         }
 
         // GET: PlayerVideos/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -143,6 +167,7 @@ namespace IDCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PlayerId")] PlayerVideo playerVideo)
         {
             if (id != playerVideo.Id)
@@ -175,6 +200,7 @@ namespace IDCapstone.Controllers
         }
 
         // GET: PlayerVideos/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -196,6 +222,7 @@ namespace IDCapstone.Controllers
         // POST: PlayerVideos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var playerVideo = await _context.PlayerVideos.FindAsync(id);

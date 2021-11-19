@@ -1,3 +1,4 @@
+using HeyRed.MarkdownSharp;
 using IDCapstone.Data;
 using IDCapstone.Models;
 using Microsoft.AspNetCore.Builder;
@@ -35,9 +36,11 @@ namespace IDCapstone
                  .AddDefaultUI()
                  .AddEntityFrameworkStores<ApplicationDbContext>()
                  .AddDefaultTokenProviders();
-            services.AddControllersWithViews();
+            services.AddTransient<Markdown>();
             services.AddRazorPages();
-
+            services.AddControllersWithViews()
+                   .AddRazorRuntimeCompilation();
+            services.AddHttpContextAccessor();
             services.AddSingleton<Services.EmbedUrlService>();
         }
 

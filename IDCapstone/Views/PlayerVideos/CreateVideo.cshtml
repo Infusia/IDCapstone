@@ -4,19 +4,19 @@
     ViewData["Title"] = "Create a Clip";
 }
 
-<div class="container ">
+<div class="container justify-content-center align-content-center align-items-center">
     <h1>Create Clip for </h1>
 
-    <div>
+    <div class="justify-content-center align-content-center align-items-center" >
         <form method="post" class="player-index ">
-            <label>Player</label>
+            <label>Currently Selected Player</label>
             <select class="form-control" name="playerId" asp-items="@Model"></select>
 
 
-            <label>Clip Name or Url</label>
+            <label>Clip Name (Only Add Text After The Slash Or Clip Won't Work IE clips.twitch.tv/<b>FragileHeartlessCockroachSuperVinlin </b></label>
             <input type="text" class="form-control " name="clipNameOrUrl" required />
 
-            <div class="mt-3">
+            <div class="mt-3 class="justify-content-center align-content-center align-items-center"">
                 <button type="submit" class="createclip btn-primary btn-block btn- " id="color">Add Video</button>
             </div>
             <div asp-validation-summary="All" class="text-danger"></div>

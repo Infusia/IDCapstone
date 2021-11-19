@@ -11,10 +11,12 @@ namespace IDCapstone.Models
     {
         public int Id { get; set; }
         public string CommentText { get; set; }
-        [DisplayFormat(DataFormatString = "{0:t}")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         [DataType(DataType.Time)]
         public DateTime TimeStamp { get; set; }
         public ApplicationUser User { get; set; }
         public Video Video { get; set; }
+         public int VideoId { get; set; }
+
     }
 }

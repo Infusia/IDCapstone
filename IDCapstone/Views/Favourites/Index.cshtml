@@ -1,0 +1,66 @@
+﻿@model IEnumerable<IDCapstone.Models.Favourite>
+@inject IDCapstone.Services.EmbedUrlService EM
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Your Favourited Clips!</h1>
+
+<div class="details">
+    <div class="row">
+
+
+
+
+
+        @*Get clip from database
+        Pull Url out
+          foreach over urls to display on page*@
+
+        @foreach (var pv in Model)
+
+        {
+            if (pv.Video.Url != null)
+            {
+
+
+        <div class="col-4">
+            <iframe src="@EM.GetEmbedUrl(pv.Video.Url)&autoplay=false"
+                    height="360"
+                    width="100%"
+                    frameborder="0"
+                    scrolling="no"
+                    allowfullscreen="true">
+            </iframe>
+            <div class="row align-items-center align-content-center justify-content-center">
+                <div class="align-items-center align-content-center justify-content-center">
+                    <a asp-action="Delete" asp-route-id="@pv.Id">Delete</a>
+                </div>
+            </div>
+        </div>
+             
+                  
+
+            }
+            @*else
+            {
+                <div>
+                    <img src="~\Images\TrollNoober.png" alt="Troll Noober" />
+
+                </div>
+            }*@
+        }
+
+
+    </div>
+</div>
+<div>
+
+
+    &nbsp;
+
+
+
+
+
+</div>

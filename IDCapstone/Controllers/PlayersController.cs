@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IDCapstone.Data;
 using IDCapstone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IDCapstone.Controllers
 {
@@ -18,13 +19,13 @@ namespace IDCapstone.Controllers
         {
             _context = context;
         }
-
+        [AllowAnonymous]
         // GET: Players
         public async Task<IActionResult> Index()
         {
             return View(await _context.Players.ToListAsync());
         }
-
+        [AllowAnonymous]
         // GET: Players/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -44,11 +45,17 @@ namespace IDCapstone.Controllers
 
             return View(player);
         }
-
+        [Authorize(Roles ="Admin")]
         // GET: Players/Create
         public IActionResult Create()
         {
-            return View();
+            try
+            {
+                return View();
+            }catch(Exception ex)
+            {
+                return NotFound();
+            }
         }
 
         // POST: Players/Create
@@ -56,17 +63,24 @@ namespace IDCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,PlayerName,Bio,TwitterUrl")] Player player)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(player);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(player);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }catch(Exception ex)
+            {
+                return NotFound();
             }
             return View(player);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Players/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -88,6 +102,7 @@ namespace IDCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PlayerName,Bio,TwitterUrl")] Player player)
         {
             if (id != player.Id)
@@ -119,6 +134,7 @@ namespace IDCapstone.Controllers
         }
 
         // GET: Players/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,6 +155,7 @@ namespace IDCapstone.Controllers
         // POST: Players/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var player = await _context.Players.FindAsync(id);

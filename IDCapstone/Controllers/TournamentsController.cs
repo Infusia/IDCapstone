@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IDCapstone.Data;
 using IDCapstone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IDCapstone.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class TournamentsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -18,7 +20,7 @@ namespace IDCapstone.Controllers
         {
             _context = context;
         }
-
+        [AllowAnonymous]
         // GET: Tournaments
         public async Task<IActionResult> Index()
         {
@@ -56,11 +58,17 @@ namespace IDCapstone.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,TournamentName,TournamentOrganizer,PrizePool,Games,Location,TournamentDate,MapsLocation,Time")] Tournament tournament)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(tournament);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(tournament);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }catch(Exception ex)
+            {
+                return NotFound();
             }
             return View(tournament);
         }

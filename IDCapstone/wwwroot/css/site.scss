@@ -1,0 +1,87 @@
+﻿$background-color: #292f33;
+$primary-color-light: #F25430;
+$primary-color-dark: #D93E30;
+$primary-color-darkest: #D93232;
+
+img {
+    width: 38px;
+    height: auto;
+}
+
+html {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+body {
+    background-color: $background-color;
+}
+/*.home{
+    position:absolute;
+    float:right;
+    padding-left: 1100px;
+    padding-top: 50px;
+  
+       
+}*/
+/*.player {*/
+    /*position: absolute;*/
+    /*padding-top: 130px;
+    padding-left: 100px;
+}*/
+
+footer {
+    position: static;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+.navbar {
+    background-color: #F25430;
+
+    .nav-link {
+        color: white !important;
+    }
+}
+
+.btn-primary {
+    width: 100% !important;
+    background-color: $primary-color-light !important;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    height: 37px;
+
+    &:hover {
+        background-color: $primary-color-dark !important;
+    }
+
+    &:active {
+        background-color: #444 !important;
+    }
+}
+
+input[type=text] {
+    background-color: #131416;
+    color: white;
+
+    &:focus {
+        color: white;
+        outline: 2px solid #131416;
+        background-color: black
+    }
+}
+
+
+select {
+    background-color: #131416 !important;
+    color: white !important;
+
+    &:focus {
+        color: white;
+        outline: 2px solid #131416 !important;
+        background-color: black
+    }
+}

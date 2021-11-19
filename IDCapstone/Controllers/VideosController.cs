@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IDCapstone.Data;
 using IDCapstone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IDCapstone.Controllers
 {
@@ -33,9 +34,28 @@ namespace IDCapstone.Controllers
 
             return View(await videos.ToListAsync());
         }
+     
+    // GET: Videos
+    public async Task<IActionResult> DropDown(string searchString)
+    {
+ 
+            ViewData["DListFilter"] = searchString;
+            var games = from vid in _context.Videos
+                           select vid;
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                if (searchString.Contains("All"))
+                {
+                    return RedirectToAction("Index", "Videos");
+                }
+                games = games.Where(v => v.GameName.Contains(searchString));
+            }
 
-        // GET: Videos/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+            return View(await games.ToListAsync());
+    }
+    // GET: Videos/Details/5
+    public async Task<IActionResult> Details(int? id)
         {
 
           
@@ -59,16 +79,26 @@ namespace IDCapstone.Controllers
         }
 
         // GET: Videos/Create
+        [Authorize(Roles = "Admin, User")]
         public IActionResult Create()
         {
+            //var games = Games.ToList();
+           // ViewData["Games"] = new SelectList(Games, "Text", "Value");
+
             return View();
         }
+
+
+      
+
+
 
         // POST: Videos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> Create([Bind("Id,Url,Title,Description,GameName")] Video video)
         {
             if (ModelState.IsValid)
@@ -81,6 +111,7 @@ namespace IDCapstone.Controllers
         }
 
         // GET: Videos/Edit/5
+        [Authorize(Roles="Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
 
@@ -103,6 +134,7 @@ namespace IDCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Url,Title,Description,GameName")] Video video)
         {
             if (id != video.Id)
@@ -134,6 +166,7 @@ namespace IDCapstone.Controllers
         }
 
         // GET: Videos/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -154,6 +187,7 @@ namespace IDCapstone.Controllers
         // POST: Videos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var video = await _context.Videos.FindAsync(id);

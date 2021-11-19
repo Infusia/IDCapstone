@@ -1,47 +1,52 @@
 ﻿@model IDCapstone.Models.Video
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create A Video";
 }
 
-<h1>Create</h1>
+<h1 class= "row justify-content-center align-content-center align-items-center">Create a Video Clip</h1>
 
-<h4>Video</h4>
+
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="row  justify-content-center align-content-center align-items-center">
+    <div class="col-md-4 container justify-content-center align-content-center align-items-center">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Url" class="control-label"></label>
+                <label asp-for="Url" class="control-label">Clip Name (Only Add Text After The Slash Or Clip Won't Work IE clips.twitch.tv/<b>FragileHeartlessCockroachSuperVinlin </b></label>
                 <input asp-for="Url" class="form-control" />
                 <span asp-validation-for="Url" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
+            <div class="form-group ">
+                <label asp-for="Title" class="control-label">Clip Title</label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <label asp-for="Description" class="control-label">Clip Description</label>
+                <input type="text" asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="GameName" class="control-label"></label>
-                <input asp-for="GameName" class="form-control" />
-                <span asp-validation-for="GameName" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+            <label asp-for="GameName" class="control-label"></label>
+            <select asp-for="GameName" class="form-control" asp-items="ViewBag.Games"/>
+            <span asp-validation-for="GameName" class="text-danger"></span>
+        </div>*@
+        <div class="form-group">
+            <label asp-for="GameName" class="control-label">Game Name</label>
+            @Html.DropDownListFor(x => x.GameName, Games.Game)
+        </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <a asp-action="Index">Back to Video Index</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

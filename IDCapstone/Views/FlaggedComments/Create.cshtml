@@ -1,0 +1,30 @@
+﻿@model IDCapstone.Models.FlaggedComment
+
+@{
+    ViewData["Title"] = "Flag Comment";
+}
+
+<h1 class="row  justify-content-center align-content-center align-items-center">Flag Comment</h1>
+
+
+<hr />
+<div class="row  justify-content-center align-content-center align-items-center">
+    <div class="row  justify-content-center align-content-center align-items-center">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                @*<label asp-for="CommentId" class="control-label"></label>*@
+              
+                @*<select asp-for="CommentId" class ="form-control" asp-items="ViewBag.CommentId"></select>*@
+                <input hidden asp-for="CommentId" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Report" class="btn btn-primary" />
+            </div>
+          s
+
+        </form>
+    </div>
+</div>
+
+

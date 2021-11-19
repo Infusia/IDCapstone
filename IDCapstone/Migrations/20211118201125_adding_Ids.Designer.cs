@@ -7,17 +7,17 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace IDCapstone.Data.Migrations
+namespace IDCapstone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210927034540_site wants me to add migration I dont know why")]
-    partial class sitewantsmetoaddmigrationIdontknowwhy
+    [Migration("20211118201125_adding_Ids")]
+    partial class adding_Ids
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.18")
+                .HasAnnotation("ProductVersion", "3.1.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -37,7 +37,7 @@ namespace IDCapstone.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("VideoId")
+                    b.Property<int>("VideoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -56,7 +56,7 @@ namespace IDCapstone.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CommentId")
+                    b.Property<int>("CommentId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -99,10 +99,10 @@ namespace IDCapstone.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("PlayerId")
+                    b.Property<int>("PlayerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("VideoId")
+                    b.Property<int>("VideoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -127,7 +127,7 @@ namespace IDCapstone.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("VideoId")
+                    b.Property<int>("VideoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -149,12 +149,12 @@ namespace IDCapstone.Data.Migrations
                     b.Property<string>("TagName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("VideoId")
+                    b.Property<int>("videoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VideoId");
+                    b.HasIndex("videoId");
 
                     b.ToTable("Tags");
                 });
@@ -452,6 +452,9 @@ namespace IDCapstone.Data.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("UsersListId")
                         .HasColumnType("int");
 
@@ -468,14 +471,18 @@ namespace IDCapstone.Data.Migrations
 
                     b.HasOne("IDCapstone.Models.Video", "Video")
                         .WithMany("Comments")
-                        .HasForeignKey("VideoId");
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IDCapstone.Models.FlaggedComment", b =>
                 {
                     b.HasOne("IDCapstone.Models.Comment", "Comment")
                         .WithMany()
-                        .HasForeignKey("CommentId");
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("IDCapstone.Models.ApplicationUser", "User")
                         .WithMany()
@@ -486,11 +493,15 @@ namespace IDCapstone.Data.Migrations
                 {
                     b.HasOne("IDCapstone.Models.Player", "Player")
                         .WithMany("PlayerVideos")
-                        .HasForeignKey("PlayerId");
+                        .HasForeignKey("PlayerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("IDCapstone.Models.Video", "Video")
                         .WithMany("PlayerVideos")
-                        .HasForeignKey("VideoId");
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IDCapstone.Models.Rating", b =>
@@ -501,14 +512,18 @@ namespace IDCapstone.Data.Migrations
 
                     b.HasOne("IDCapstone.Models.Video", "Video")
                         .WithMany()
-                        .HasForeignKey("VideoId");
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IDCapstone.Models.Tag", b =>
                 {
                     b.HasOne("IDCapstone.Models.Video", "Video")
                         .WithMany("Tags")
-                        .HasForeignKey("VideoId");
+                        .HasForeignKey("videoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

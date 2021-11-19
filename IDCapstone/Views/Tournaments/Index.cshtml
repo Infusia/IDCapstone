@@ -1,40 +1,42 @@
 ﻿@model IEnumerable<IDCapstone.Models.Tournament>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tournaments";
 }
 
-<h1>Index</h1>
-
+<h1>Current Tournaments</h1>
+@if (User.IsInRole("Admin"))
+{
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Add A Tournament</a>
 </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.TournamentName)
+                Tournament Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TournamentOrganizer)
+                Tournament Organizer
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PrizePool)
+                Prize Pool
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Games)
+                Games Played
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Location)
+                Location
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TournamentDate)
+                Tournament Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MapsLocation)
+                Google Maps Location
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Time)
+                Tournament Time
             </th>
             <th></th>
         </tr>
@@ -66,11 +68,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Time)
             </td>
+            @if (User.IsInRole("Admin"))
+            {
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
+            }
         </tr>
 }
     </tbody>

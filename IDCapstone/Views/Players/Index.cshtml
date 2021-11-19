@@ -1,49 +1,88 @@
 ﻿@model IEnumerable<IDCapstone.Models.Player>
-
+@inject HeyRed.MarkdownSharp.Markdown MD
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Player Index";
 }
 
-<h1>Index</h1>
+@*<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PlayerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TwitterUrl)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PlayerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TwitterUrl)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                <a title="Add a Clip" asp-action="CreateVideo" asp-controller="PlayerVideos" asp-route-playerId="@item.Id">Add A Clip</a>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PlayerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Bio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TwitterUrl)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlayerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TwitterUrl)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a title="Add a Clip" asp-action="CreateVideo" asp-controller="PlayerVideos" asp-route-playerId="@item.Id">Add A Clip</a>
 
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>*@
+<div class="container-fluid">
+    <div class="row player-index">
+        @foreach (var player in Model)
+        {
+            <div class="col-sm-5">
+                <h2>
+                    @Html.DisplayFor(modelItem => player.PlayerName)
+                    <a title="Player Clips" asp-action="Details" asp-route-id="@player.Id">
+                        <i class="las la-video"></i>
+
+                    </a>
+
+                    <a title="Follow On Twitter  @player.TwitterUrl" href="//@(player.TwitterUrl)" target="_blank"  ><i class="lab la-twitter"></i></a>
+                    
+
+                    <a title="Add a Clip" asp-action="CreateVideo" asp-controller="PlayerVideos" asp-route-playerId="@player.Id"><i class="la la-plus"></i></a>
+
+
+
+                </h2>
+
+                <div>
+
+                    @Html.Raw(MD.Transform(player.Bio))
+
+                </div>
+                @if (User.IsInRole("Admin"))
+                {
+                <div>
+                    <a asp-action="Edit" asp-route-id="@player.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@player.Id">Delete</a>
+                </div>
+                }
+
+            </div>
+
+        }
+    </div>
+</div>

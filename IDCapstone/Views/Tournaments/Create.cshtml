@@ -4,64 +4,65 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class= "row justify-content-center align-content-center align-items-center">Create a Tournament</h1>
 
-<h4>Tournament</h4>
+
 <hr />
-<div class="row">
+<div class="row justify-content-center align-content-center align-items-center">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="TournamentName" class="control-label"></label>
+                <label asp-for="TournamentName" class="control-label"> Tournament Name</label>
                 <input asp-for="TournamentName" class="form-control" />
                 <span asp-validation-for="TournamentName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TournamentOrganizer" class="control-label"></label>
+                <label asp-for="TournamentOrganizer" class="control-label">Tournament Organizer</label>
                 <input asp-for="TournamentOrganizer" class="form-control" />
                 <span asp-validation-for="TournamentOrganizer" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PrizePool" class="control-label"></label>
+                <label asp-for="PrizePool" class="control-label">Prize Pool</label>
                 <input asp-for="PrizePool" class="form-control" />
                 <span asp-validation-for="PrizePool" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Games" class="control-label"></label>
+                <label asp-for="Games" class="control-label">Games Played</label>
                 <input asp-for="Games" class="form-control" />
                 <span asp-validation-for="Games" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
+                <label asp-for="Location" class="control-label">Location</label>
                 <input asp-for="Location" class="form-control" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TournamentDate" class="control-label"></label>
-                <input asp-for="TournamentDate"  asp-format="{0:MM/dd/yyyy}" class="form-control" />
+                <label asp-for="TournamentDate" class="control-label">Tournament Date</label>
+                <input asp-for="TournamentDate" asp-format="{0:MM/dd/yyyy}" class="form-control" />
                 <span asp-validation-for="TournamentDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MapsLocation" class="control-label"></label>
+                <label asp-for="MapsLocation" class="control-label">Google Maps Location</label>
                 <input asp-for="MapsLocation" class="form-control" />
                 <span asp-validation-for="MapsLocation" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Time" class="control-label"></label>
-                <input asp-format="{0:t}" asp-for="Time"  class="form-control" />
+                <label asp-for="Time" class="control-label">Tournament Time</label>
+                <input asp-format="{0:t}" asp-for="Time" class="form-control" />
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+            <div class="form-group row justify-content-center align-content-center align-items-center">
+                <a asp-action="Index">Back to Tournament Index</a>
+            </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

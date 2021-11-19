@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IDCapstone.Data;
 using IDCapstone.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IDCapstone.Controllers
 {
@@ -18,7 +19,7 @@ namespace IDCapstone.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Comments
         public async Task<IActionResult> Index()
         {
@@ -26,6 +27,7 @@ namespace IDCapstone.Controllers
         }
 
         // GET: Comments/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,71 +47,76 @@ namespace IDCapstone.Controllers
         }
 
 
-
+        /// <summary>
+        /// Custom Create method to pass in VideoId and create a comment for that video
+        /// </summary>
+        /// <param name="videoId"></param>
+        /// <returns></returns>
         [HttpGet]
+        [Authorize(Roles = "Admin, User")]
         public async Task<IActionResult> CreateCommentAsync(int videoId)
         {
-
-            var playerSelectList = await _context.Videos
-                .OrderBy(player => player.Title)
-                .Select(player =>
-                new SelectListItem()
-                {
-                    Text = player.Title,
-                    Value = player.Id.ToString(),
-                    Selected = videoId == player.Id
-                })
-                .ToListAsync();
-
-            return View(playerSelectList);
+            try
+            {
+                // --WORKS BUT NOT THE WAY I WANT
+                var videos = await _context.Videos
+                    .OrderBy(vid => vid.Title)
+                    .Where(vid => vid.Title != null)
+                    .Select(vid =>
+                    new SelectListItem()
+                    {
+                        Text = vid.Title,
+                        Value = vid.Id.ToString(),
+                        Selected = videoId == vid.Id
+                    })
+                    .ToListAsync();
+                return View(videos);
+            } catch (Exception ex)
+            {
+                return NotFound();
+            }
 
         }
-
-        //public async Task<IActionResult> ShowComment(int videoId)
-        //{
-        //    Video video = new Video();
-        //    _context.Videos.Add(video);
-        //    await _context.SaveChangesAsync();
-        //    Comment comment = new Comment();
-        //    comment.Id = videoId;
-        //  //comment.CommentText = commentText;
-        //    _context.Comments.Add(comment);
-        //    await _context.SaveChangesAsync();
-        //    return View();
-        //}
-
-
-
-
-
+        /// <summary>
+        /// Custom Create method to pass in VideoId and the text of the comment from the user
+        /// </summary>
+        /// <param name="videoId"></param>
+        /// <param name="commentText"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateCommentAsync(int videoId,  string commentText)
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Admin, User")]
+        public async Task<IActionResult> CreateCommentAsync(int videoId, string commentText)
         {
-            //ApplicationUser applicationUser = new ApplicationUser();
-            //applicationUser.Id = userId;
-            //_context.Users.Add(applicationUser);
-           
-   
-            Comment comment = new Comment();
-            //  comment.Id = videoId;
-            //comment.Video.Comments = commentText;
-            //comment.Video.Id = 4;
-          //  Video video = new Video();
-            comment.CommentText = commentText;
-          //  video.Id = videoId;
-          //  comment.Id = videoId;
-        //    comment.Video.Id = videoId;
-            _context.Comments.Add(comment);
-           // _context.Videos.Add(video);
-    
-            await _context.SaveChangesAsync();
+
+            try
+            {
+
+                if (ModelState.IsValid)
+                {
+
+                    Comment comment = new Comment();
+                    comment.VideoId = videoId;
+                    comment.CommentText = commentText;
+                    comment.TimeStamp = DateTime.Now;
+
+
+                    _context.Comments.Add(comment);
+
+
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Videos");
+                }
+            }catch(Exception ex)
+            {
+                return NotFound();
+            }
             return RedirectToAction("Index");
-
-
         }
 
 
         // GET: Comments/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -120,18 +127,28 @@ namespace IDCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,CommentText,TimeStamp")] Comment comment)
         {
+            try
+            {
+
+            
             if (ModelState.IsValid)
             {
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            }catch(Exception ex)
+            {
+                return NotFound();
+            }
             return View(comment);
         }
 
         // GET: Comments/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -152,6 +169,7 @@ namespace IDCapstone.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CommentText,TimeStamp")] Comment comment)
         {
             if (id != comment.Id)
@@ -183,6 +201,7 @@ namespace IDCapstone.Controllers
         }
 
         // GET: Comments/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -203,6 +222,7 @@ namespace IDCapstone.Controllers
         // POST: Comments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var comment = await _context.Comments.FindAsync(id);

@@ -10,6 +10,7 @@ namespace IDCapstone.Models
         public int Id { get; set; }
         public ApplicationUser User { get; set; }
         public Comment Comment { get; set; }
+        public int CommentId { get; set; }
 
     }
 }

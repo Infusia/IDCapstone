@@ -10,5 +10,6 @@ namespace IDCapstone.Models
         public int Id { get; set; }
         public string TagName { get; set; }
         public Video Video { get; set; }
+        public int videoId { get; set; }
     }
 }

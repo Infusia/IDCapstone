@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -14,18 +14,41 @@
     <Compile Remove="Data\Migrations\20210927034443_user list addition.Designer.cs" />
     <Compile Remove="Data\Migrations\20211018085917_AzureDeploy.cs" />
     <Compile Remove="Data\Migrations\20211018085917_AzureDeploy.Designer.cs" />
+    <Compile Remove="Data\Migrations\20211116000344_updated_video_controller.cs" />
+    <Compile Remove="Data\Migrations\20211116000344_updated_video_controller.Designer.cs" />
+    <Compile Remove="Data\Migrations\20211117044354_re_add_comments_table.cs" />
+    <Compile Remove="Data\Migrations\20211117044354_re_add_comments_table.Designer.cs" />
+    <Compile Remove="Migrations\20211117051630_Initial.cs" />
+    <Compile Remove="Migrations\20211117051630_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20211118211141_favourites.cs" />
+    <Compile Remove="Migrations\20211118211141_favourites.Designer.cs" />
+    <Compile Remove="Migrations\20211119012909_no_idea.cs" />
+    <Compile Remove="Migrations\20211119012909_no_idea.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+    <None Include="wwwroot\Images\incendium_white_no_text.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BuildWebCompiler" Version="1.12.394" />
+    <PackageReference Include="Markdown" Version="2.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.18" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.18" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.18" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.21">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.18" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
