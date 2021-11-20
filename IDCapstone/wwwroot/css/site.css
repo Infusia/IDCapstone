@@ -4,24 +4,19 @@
 
 html {
   position: relative;
-  min-height: 100%;
- }
-p{
-    color:white;
-    font-size:x-large
-}
+  height: 100%;
+  width: 100%; }
+
 body {
   background-color: #292f33; }
-a {
-   color: #F25430 !important;
-}
+
 /*.home{
     position:absolute;
     float:right;
     padding-left: 1100px;
     padding-top: 50px;
   
-     
+       
 }*/
 /*.player {*/
 /*position: absolute;*/
@@ -29,7 +24,7 @@ a {
     padding-left: 100px;
 }*/
 footer {
-  position: sticky;
+  position: static;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
@@ -40,13 +35,8 @@ footer {
   background-color: #F25430; }
   .navbar .nav-link {
     color: white !important; }
-.btn-default {
-    background-color: #F25430 !important;
-    color: white;
-    border: none;
-    border-radius: 6px;
-}
-.btn-primary {
+
+.btn btn-default {
     width: 100% !important;
     background-color: #F25430 !important;
     color: white;
@@ -54,6 +44,23 @@ footer {
     border-radius: 6px;
     height: 37px;
 }
+
+.btn btn-default {
+    background-color: #D93E30 !important;
+}
+
+.btn btn-default {
+    background-color: #444 !important;
+}
+
+
+.btn-primary {
+  width: 100% !important;
+  background-color: #F25430 !important;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  height: 37px; }
   .btn-primary:hover {
     background-color: #D93E30 !important; }
   .btn-primary:active {
@@ -74,29 +81,35 @@ select {
     color: white;
     outline: 2px solid #131416 !important;
     background-color: black; }
-h1,h2,h3{
-    color:white
+
+h1, h2, h3 {
+    color: white
 }
-label{
-    color:white;
-    font-size:large;
+
+label {
+    color: white;
+    font-size: large;
 }
+
 input[type=date] {
     background-color: #131416 !important;
     color: white !important;
-
 }
+
 input[type=time] {
     background-color: #131416 !important;
     color: white !important;
 }
+
 th, td {
     color: white !important;
 }
+
 textarea {
     background-color: #131416 !important;
     color: white !important;
 }
+
 dl, dt, dd {
     color: white !important;
 }
@@ -109,4 +122,23 @@ input[type=password] {
 input[type=email] {
     color: white !important;
     background-color: black !important;
+}
+p {
+    color: white !important;
+}
+a {
+    color: #F25430 !important;
+}
+button{
+    width: 100% !important;
+    background-color: #F25430 !important;
+    color: white;
+    border: none;
+    border-radius: 6px;
+}
+input[type=submit] {
+    background-color: #F25430 !important;
+    color: white;
+    border: none;
+    border-radius: 6px;
 }

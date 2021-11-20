@@ -47,41 +47,46 @@
     }
         </tbody>
     </table>*@
+
 <div class="container-fluid">
+    @if (User.IsInRole("Admin"))
+    {
+    <a asp-action="Create">Add a Player!</a>
+    }
     <div class="row player-index">
         @foreach (var player in Model)
         {
-            <div class="col-sm-5">
-                <h2>
-                    @Html.DisplayFor(modelItem => player.PlayerName)
-                    <a title="Player Clips" asp-action="Details" asp-route-id="@player.Id">
-                        <i class="las la-video"></i>
+        <div class="col-sm-5">
+            <h2>
+                @Html.DisplayFor(modelItem => player.PlayerName)
+                <a title="Player Clips" asp-action="Details" asp-route-id="@player.Id">
+                    <i class="las la-video"></i>
 
-                    </a>
+                </a>
 
-                    <a title="Follow On Twitter  @player.TwitterUrl" href="//@(player.TwitterUrl)" target="_blank"  ><i class="lab la-twitter"></i></a>
-                    
-
-                    <a title="Add a Clip" asp-action="CreateVideo" asp-controller="PlayerVideos" asp-route-playerId="@player.Id"><i class="la la-plus"></i></a>
+                <a title="Follow On Twitter  @player.TwitterUrl" href="//@(player.TwitterUrl)" target="_blank"><i class="lab la-twitter"></i></a>
 
 
+                <a title="Add a Clip" asp-action="CreateVideo" asp-controller="PlayerVideos" asp-route-playerId="@player.Id"><i class="la la-plus"></i></a>
 
-                </h2>
 
-                <div>
 
-                    @Html.Raw(MD.Transform(player.Bio))
+            </h2>
 
-                </div>
-                @if (User.IsInRole("Admin"))
-                {
-                <div>
-                    <a asp-action="Edit" asp-route-id="@player.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@player.Id">Delete</a>
-                </div>
-                }
+            <div>
+
+                @Html.Raw(MD.Transform(player.Bio))
 
             </div>
+            @if (User.IsInRole("Admin"))
+                {
+            <div>
+                <a asp-action="Edit" asp-route-id="@player.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@player.Id">Delete</a>
+            </div>
+                }
+
+        </div>
 
         }
     </div>

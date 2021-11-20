@@ -14,12 +14,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Url" class="control-label">Clip Name (Only Add Text After The Slash Or Clip Won't Work IE clips.twitch.tv/<b>FragileHeartlessCockroachSuperVinlin </b></label>
-                <input asp-for="Url" class="form-control" />
+                <input asp-for="Url" class="form-control"  required/>
                 <span asp-validation-for="Url" class="text-danger"></span>
             </div>
             <div class="form-group ">
                 <label asp-for="Title" class="control-label">Clip Title</label>
-                <input asp-for="Title" class="form-control" />
+                <input asp-for="Title" class="form-control" required />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="form-group">
